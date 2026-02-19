@@ -32,3 +32,6 @@ def delete_contact(db: Session, contact_id: int):
     db.delete(db_contact)
     db.commit()
     return True
+
+def get_all_contacts(db: Session):
+    return db.query(Contact).all()

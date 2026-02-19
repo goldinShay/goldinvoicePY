@@ -5,7 +5,19 @@ from app.schemas.contact import ContactCreate, ContactUpdate, ContactRead
 from app.services import contact_service
 from typing import List
 
+from fastapi import APIRouter, Request, Depends, Form
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
+
+from app.db.session import SessionLocal
+from app.schemas.contact import ContactCreate
+from app.services.contact_service import create_contact, get_all_contacts
+
+
 router = APIRouter(prefix="/contacts", tags=["Contacts"])
+templates = Jinja2Templates(directory="app/templates")
+
 
 def get_db():
     db = SessionLocal()
@@ -13,6 +25,28 @@ def get_db():
         yield db
     finally:
         db.close()
+
+@router.get("/new", response_class=HTMLResponse)
+def add_contact_form(request: Request):
+    return templates.TemplateResponse("add_contact.html", {"request": request})
+
+@router.post("/new")
+def add_contact(
+        first_name: str = Form(...),
+        last_name: str = Form(...),
+        email: str = Form(None),
+        phone: str = Form(None),
+        db: Session = Depends(get_db)
+):
+    contact_data = ContactCreate(
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        phone=phone
+    )
+    contact_service.create_contact(db, contact_data)
+    return RedirectResponse(url="/contacts/", status_code=303)
+
 
 @router.get("/", response_model=List[ContactRead])
 def list_contacts(db: Session = Depends(get_db)):
