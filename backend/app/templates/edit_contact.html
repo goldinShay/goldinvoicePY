@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Contact</title>
+</head>
+<body>
+<h1>Edit Contact</h1>
+
+<form action="/contacts/{{ contact.id }}/edit" method="post">
+    <label>First Name:</label><br>
+    <input type="text" name="first_name" value="{{ contact.first_name }}" required><br><br>
+
+    <label>Last Name:</label><br>
+    <input type="text" name="last_name" value="{{ contact.last_name }}" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" value="{{ contact.email }}"><br><br>
+
+    <label>Phone Number:</label><br>
+    <input type="text" name="phone_number" value="{{ contact.phone_number }}"><br><br>
+
+    <label for="company_name">Company:</label><br>
+    <input type="text" id="company_name" name="company_name" value="{{ contact.company_name }}"><br><br>
+
+    <label>Birth Date:</label><br>
+    <input type="date" name="birth_date" value="{{ contact.birth_date if contact is defined and contact.birth_date else '' }}"><br><br>
+
+    <label>Location:</label><br>
+    <input type="text" name="location" value="{{ contact.location if contact is defined and contact.location else '' }}"><br><br>
+
+    <label>Notes:</label><br>
+    <textarea name="notes" rows="3" cols="40">{{ contact.notes if contact is defined and contact.notes else '' }}</textarea><br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<br>
+<a href="/contacts/">Back to Contacts</a>
+</body>
+</html>

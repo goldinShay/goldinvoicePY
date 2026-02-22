@@ -73,3 +73,9 @@ def delete_invoice(db: Session, invoice_id: int):
     db.delete(db_invoice)
     db.commit()
     return True
+
+def get_invoices(db: Session):
+    return db.query(Invoice).all()
+
+def get_invoice(db: Session, invoice_id: int):
+    return db.query(Invoice).filter(Invoice.id == invoice_id).first()

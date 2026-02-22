@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contacts</title>
+</head>
+<body>
+<h1>Contacts</h1>
+
+<a href="/contacts/new">➕ Add Contact</a>
+<br><br>
+
+<table border="1" cellpadding="6">
+  <tr>
+    <th>Name</th>
+    <th>Company</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Birth date</th>
+    <th>Location</th>
+    <th>Notes</th>
+    <th>Actions</th>
+  </tr>
+
+  {% for c in contacts %}
+  <tr>
+    <td>{{ c.first_name }} {{ c.last_name }}</td>
+    <td>{{ c.company_name or '-' }}</td>
+    <td>{{ c.email }}</td>
+    <td>{{ c.phone_number }}</td>
+    <td>
+      {% if c.birth_date %}
+      {{ c.birth_date }}
+      {% else %}
+      -
+      {% endif %}
+    </td>
+    <td>{{ c.location or '-' }}</td>
+    <td>{{ c.notes or '' }}</td>
+    <td>
+      <a href="/contacts/{{ c.id }}/edit">Edit</a> |
+      <a href="/contacts/{{ c.id }}/delete">Delete</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br>
+<a href="/">Back to Home</a>
+</body>
+</html>

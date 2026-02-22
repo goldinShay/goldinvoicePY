@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Invoices</title>
+</head>
+<body>
+<h1>Invoices</h1>
+
+<a href="/invoices/new">Create Invoice</a>
+<br><br>
+
+<ul>
+  {% for inv in invoices %}
+  <li>
+    Invoice #{{ inv.id }} — {{ inv.amount }} — {{ inv.status }}
+    <a href="/invoices/{{ inv.id }}/edit">Edit</a>
+    <a href="/invoices/{{ inv.id }}/delete">Delete</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<br>
+<a href="/">Back to Home</a>
+</body>
+</html>
